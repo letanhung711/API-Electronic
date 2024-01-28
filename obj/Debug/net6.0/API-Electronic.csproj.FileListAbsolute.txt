@@ -67,3 +67,4 @@ E:\Workspace\API-Electronic\obj\Debug\net6.0\refint\API-Electronic.dll
 E:\Workspace\API-Electronic\obj\Debug\net6.0\API-Electronic.pdb
 E:\Workspace\API-Electronic\obj\Debug\net6.0\API-Electronic.genruntimeconfig.cache
 E:\Workspace\API-Electronic\obj\Debug\net6.0\ref\API-Electronic.dll
+E:\Workspace\API-Electronic\obj\Debug\net6.0\API-Electronic.sourcelink.json

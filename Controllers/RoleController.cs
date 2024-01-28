@@ -2,18 +2,17 @@
 using API_Electronic.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace API_Electronic.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class RoleController : ControllerBase
     {
-        private readonly IUserService _userService;
-        public UserController(IUserService userService) 
+        private readonly IRoleService _roleService;
+        public RoleController(IRoleService roleService) 
         {
-            _userService = userService;
+            _roleService = roleService;
         }
 
         [HttpGet]
@@ -21,7 +20,7 @@ namespace API_Electronic.Controllers
         {
             try
             {
-                return Ok(await _userService.GetAllUser());
+                return Ok(await _roleService.GetAllRole());
             }
             catch(ArgumentException ex)
             {
@@ -30,11 +29,11 @@ namespace API_Electronic.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserById(int id)
+        public async Task<IActionResult> GetRoleById(int id)
         {
             try
             {
-                return Ok(await _userService.GetUserById(id));
+                return Ok(await _roleService.GetRoleById(id));
             }
             catch (ArgumentException ex)
             {
@@ -42,31 +41,17 @@ namespace API_Electronic.Controllers
             }
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterModel user)
+        [HttpPost]
+        public async Task<IActionResult> CreateRole(RoleModel model)
         {
             try
             {
-                var userId = await _userService.Create(user);
-                if (!ModelState.IsValid)
+                var roleId = await _roleService.Create(model);
+                if(!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
-                return Ok(new { UserId = userId });
-            }
-            catch(ArgumentException ex)
-            {
-                return BadRequest(new { Message = ex.Message });
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserById(int id)
-        {
-            try
-            {
-                await _userService.Delete(id);
-                return Ok(new { Message = "User deleted successfully." });
+                return Ok(new { RoleId = roleId });
             }
             catch(ArgumentException ex)
             {
@@ -75,18 +60,32 @@ namespace API_Electronic.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserById(int id, UserModel model)
+        public async Task<IActionResult> UpdateRole(int id, RoleModel model)
         {
             try
             {
-                await _userService.Update(id, model);
+                await _roleService.Update(id, model);
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
-                return Ok(new { Message = "User update successfully." });
+                return Ok(new { Message = "Role update successfully." });
             }
             catch (ArgumentException ex)
+            {
+                return BadRequest(new { Message = ex.Message });
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRole(int id)
+        {
+            try
+            {
+                await _roleService.Delete(id);
+                return Ok(new { Message = "Role deleted successfully." });
+            }
+            catch(ArgumentException ex)
             {
                 return BadRequest(new { Message = ex.Message });
             }

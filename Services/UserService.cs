@@ -15,7 +15,7 @@ namespace API_Electronic.Services
             _userRepository = userRepository;
         }
 
-        public async Task<int> Create(UserModel userModel)
+        public async Task<int> Create(RegisterModel userModel)
         {
             if (userModel == null)
             {

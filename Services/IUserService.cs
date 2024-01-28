@@ -8,7 +8,7 @@ namespace API_Electronic.Services
         Task<List<User>> GetAllUser();
         Task<User> GetUserById(int id);
         Task<User> GetUserByEmail(string email);
-        Task<int> Create(UserModel userModel);
+        Task<int> Create(RegisterModel userModel);
         Task Update(int id, UserModel userModel);
         Task Delete(int id);
     }

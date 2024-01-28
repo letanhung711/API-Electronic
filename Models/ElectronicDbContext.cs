@@ -8,6 +8,15 @@ namespace API_Electronic.Models
 
         #region DbSet
         public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         #endregion
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(u => u.RoleId);
+        }
     }
 }

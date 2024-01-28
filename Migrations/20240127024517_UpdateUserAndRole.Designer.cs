@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_Electronic.Migrations
 {
     [DbContext(typeof(ElectronicDbContext))]
-    [Migration("20240126131924_UpdateUser2")]
-    partial class UpdateUser2
+    [Migration("20240127024517_UpdateUserAndRole")]
+    partial class UpdateUserAndRole
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,25 @@ namespace API_Electronic.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("API_Electronic.Models.Role", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("role_id");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("RoleId"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(45)
+                        .HasColumnType("nvarchar(45)");
+
+                    b.HasKey("RoleId");
+
+                    b.ToTable("Role");
+                });
 
             modelBuilder.Entity("API_Electronic.Models.User", b =>
                 {
@@ -57,6 +76,9 @@ namespace API_Electronic.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
 
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(45)
@@ -64,7 +86,25 @@ namespace API_Electronic.Migrations
 
                     b.HasKey("UserId");
 
+                    b.HasIndex("RoleId");
+
                     b.ToTable("User");
+                });
+
+            modelBuilder.Entity("API_Electronic.Models.User", b =>
+                {
+                    b.HasOne("API_Electronic.Models.Role", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("API_Electronic.Models.Role", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }

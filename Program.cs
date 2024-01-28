@@ -12,16 +12,25 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//Add Crors
+builder.Services.AddCors(policy => policy.AddPolicy("DefaultCors", build =>
+{
+    build.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+}));
+
 //Connect database
 builder.Services.AddDbContext<ElectronicDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnect"));
 });
+
 //Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
 //Services
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
 
 var app = builder.Build();
 
@@ -33,6 +42,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("DefaultCors");
 
 app.UseAuthorization();
 
