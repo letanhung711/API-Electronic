@@ -27,8 +27,5 @@ namespace API_Electronic.ViewModels
 
         [Range(typeof(DateTime), "1900-01-01", "2100-12-31", ErrorMessage = "Ngày sinh không hợp lệ.")]
         public DateTime BirthDate { get; set; }
-
-        [Range(typeof(DateTime), "1900-01-01", "2100-12-31", ErrorMessage = "Ngày tạo không hợp lệ.")]
-        public DateTime Create_Time { get; set; }
     }
 }

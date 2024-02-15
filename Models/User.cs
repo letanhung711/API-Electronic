@@ -37,7 +37,12 @@ namespace API_Electronic.Models
         [Range(typeof(DateTime), "1900-01-01", "2100-12-31", ErrorMessage = "Ngày tạo không hợp lệ.")]
         public DateTime Create_Time { get; set; }
 
+        public User()
+        {
+            Create_Time = DateTime.Now;
+        }
+
         public int RoleId { get; set; } // Foreign key to Role
-        public Role Role { get; set; }
+        public Role? Role { get; set; }
     }
 }

@@ -7,12 +7,12 @@ namespace API_Electronic.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RoleController : ControllerBase
+    public class ProductController : ControllerBase
     {
-        private readonly IRoleService _roleService;
-        public RoleController(IRoleService roleService) 
+        private readonly IProductService _productService;
+        public ProductController(IProductService productService) 
         {
-            _roleService = roleService;
+            _productService = productService;
         }
 
         [HttpGet]
@@ -20,20 +20,20 @@ namespace API_Electronic.Controllers
         {
             try
             {
-                return Ok(await _roleService.GetAllRole());
+                return Ok(await _productService.GetAllProduct());
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(new { Message = ex.Message });
             }
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetRoleById(int id)
+        public async Task<IActionResult> GetProductById(int id)
         {
             try
             {
-                return Ok(await _roleService.GetRoleById(id));
+                return Ok(await _productService.GetProductById(id));
             }
             catch (ArgumentException ex)
             {
@@ -42,16 +42,16 @@ namespace API_Electronic.Controllers
         }
 
         [HttpPost("create")]
-        public async Task<IActionResult> CreateRole(RoleModel model)
+        public async Task<IActionResult> Create(ProductModel productModel)
         {
             try
             {
-                var roleId = await _roleService.Create(model);
-                if(!ModelState.IsValid)
+                var productId = await _productService.Create(productModel);
+                if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
                 }
-                return Ok(new { RoleId = roleId });
+                return Ok(new { ProductId = productId });
             }
             catch(ArgumentException ex)
             {
@@ -59,17 +59,13 @@ namespace API_Electronic.Controllers
             }
         }
 
-        [HttpPut("update/{id}")]
-        public async Task<IActionResult> UpdateRole(int id, RoleModel model)
+        [HttpDelete("delete/{id}")]
+        public async Task<IActionResult> DeleteProduct(int id) 
         {
             try
             {
-                await _roleService.Update(id, model);
-                if (!ModelState.IsValid)
-                {
-                    return BadRequest(ModelState);
-                }
-                return Ok(new { Message = "Role update successfully." });
+                await _productService.Delete(id);
+                return Ok(new { Message = "Product deleted successfully." });
             }
             catch (ArgumentException ex)
             {
@@ -77,15 +73,19 @@ namespace API_Electronic.Controllers
             }
         }
 
-        [HttpDelete("delete/{id}")]
-        public async Task<IActionResult> DeleteRole(int id)
+        [HttpPut("update/{id}")]
+        public async Task<IActionResult> UpdateProduct(int id, ProductModel productModel)
         {
             try
             {
-                await _roleService.Delete(id);
-                return Ok(new { Message = "Role deleted successfully." });
+                await _productService.Update(id, productModel);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                return Ok(new { Message = "Product update successfully." });
             }
-            catch(ArgumentException ex)
+            catch (ArgumentException ex)
             {
                 return BadRequest(new { Message = ex.Message });
             }

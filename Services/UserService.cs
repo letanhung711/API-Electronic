@@ -44,8 +44,7 @@ namespace API_Electronic.Services
                 UserName = userModel.UserName,
                 Email = userModel.Email,
                 Password = hashedPassword,
-                BirthDate = userModel.BirthDate,
-                Create_Time = userModel.Create_Time
+                BirthDate = userModel.BirthDate
             };
             return await _userRepository.Create(user);
         }

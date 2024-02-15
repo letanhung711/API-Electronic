@@ -60,7 +60,7 @@ namespace API_Electronic.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete/{id}")]
         public async Task<IActionResult> DeleteUserById(int id)
         {
             try
@@ -74,7 +74,7 @@ namespace API_Electronic.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("update/{id}")]
         public async Task<IActionResult> PutUserById(int id, UserModel model)
         {
             try
